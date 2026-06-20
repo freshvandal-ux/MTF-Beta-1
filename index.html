@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOUNDATION INTNET // BETA-1 DOSSIER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #05080c;
+            --panel-color: #0b1118;
+            --glow-cyan: #00f3ff;
+            --alert-red: #ff3b3b;
+            --text-main: #c0cddb;
+            --text-muted: #62778c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Share Tech Mono', monospace;
+            background-image: 
+                linear-gradient(rgba(11, 17, 24, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(11, 17, 24, 0.3) 1px, transparent 1px);
+            background-size: 20px 20px;
+            overflow-x: hidden;
+        }
+
+        /* Scanline Overlay Vibe */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 9999;
+            background-size: 100% 3px, 6px 100%;
+            pointer-events: none;
+        }
+
+        /* Top Warning Banner */
+        .security-banner {
+            background-color: rgba(255, 59, 59, 0.1);
+            border-bottom: 2px solid var(--alert-red);
+            color: var(--alert-red);
+            text-align: center;
+            padding: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px var(--alert-red);
+        }
+
+        /* App Wrapper */
+        .terminal-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .terminal-container { grid-template-columns: 1fr; }
+        }
+
+        /* Header UI Element */
+        header {
+            grid-column: 1 / -1;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            background-color: var(--panel-color);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.05);
+        }
+
+        .logo-area h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--glow-cyan);
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        .system-status {
+            text-align: right;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .status-pulse {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #00ff66;
+            border-radius: 50%;
+            margin-right: 5px;
+            box-shadow: 0 0 8px #00ff66;
+            animation: pulse 2s infinite;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            background-color: var(--panel-color);
+            padding: 20px;
+            height: fit-content;
+        }
+
+        aside h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--glow-cyan);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            padding-bottom: 5px;
+        }
+
+        .nav-links list {
+            list-style: none;
+        }
+
+        .nav-links a {
+            display: block;
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 8px 10px;
+            margin-bottom: 5px;
+            border-left: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(0, 243, 255, 0.05);
+            border-left-color: var(--glow-cyan);
+            color: var(--glow-cyan);
+            text-shadow: 0 0 5px var(--glow-cyan);
+            padding-left: 15px;
+        }
+
+        /* Main Content Panel */
+        main {
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            background-color: var(--panel-color);
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.05);
+        }
+
+        .dossier-header {
+            border-bottom: 1px dashed rgba(0, 243, 255, 0.3);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .dossier-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        /* Metadata Badges Block */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .meta-item span {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .meta-item strong {
+            font-size: 1.1rem;
+            color: var(--glow-cyan);
+        }
+
+        /* Text Styling */
+        h4 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--glow-cyan);
+            margin: 25px 0 10px 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        h4::before {
+            content: "> ";
+            margin-right: 8px;
+            color: var(--alert-red);
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        /* Redacted Data Blocks */
+        .redacted {
+            background-color: #000;
+            color: #000;
+            padding: 0 3px;
+            user-select: none;
+            border-radius: 2px;
+            display: inline-block;
+            line-height: 1;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="security-banner">
+        [WARNING] LEVEL 5 SECURITY CLEARANCE REQUIRED. UNAUTHORIZED ACCESS DETECTED BY MEMETIC OVERSEER.
+    </div>
+
+    <div class="terminal-container">
+        <header>
+            <div class="logo-area">
+                <h1>SCP FOUNDATION DATABASE</h1>
+            </div>
+            <div class="system-status">
+                <span class="status-pulse"></span>TERMINAL NODES: ACTIVE // SECURE
+            </div>
+        </header>
+
+        <aside>
+            <h3>DATABASE MAP</h3>
+            <nav class="nav-links">
+                <a href="#" class="active">MTF Beta-1 Dossier</a>
+                <a href="#">Active Operations</a>
+                <a href="#">Incident Logs</a>
+                <a href="#">Personnel Manifest</a>
+            </nav>
+        </aside>
+
+        <main>
+            <div class="dossier-header">
+                <h2>MOBILE TASK FORCE BETA-1</h2>
+                <p style="color: var(--text-muted); margin: 0;">File Ref: SCiP-Net//MTF-β1-Dossier</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span>DESIGNATION</span>
+                    <strong>MTF Beta-1 (β-1)</strong>
+                </div>
+                <div class="meta-item">
+                    <span>CODENAMES</span>
+                    <strong>Cauterizers / Klub Listonoszy</strong>
+                </div>
+                <div class="meta-item">
+                    <span>CLEARANCE LEVEL</span>
+                    <strong style="color: var(--alert-red);">LEVEL 5 EYES ONLY</strong>
+                </div>
+                <div class="meta-item">
+                    <span>COMMANDING NODE</span>
+                    <strong>O5 COUNCIL</strong>
+                </div>
+            </div>
+
+            <h4>OVERVIEW</h4>
+            <p>Mobile Task Force Beta-1 is a highly classified internal security unit specializing in counter-intelligence, anti-infiltration, and data-leak mitigation. The primary mandate of Beta-1 is to identify, track, and neutralize rogue elements or foreign intelligence assets operating within Foundation personnel, preventing critical data streams from reaching external Groups of Interest (GoIs).</p>
+            <p>Due to the extreme operational sensitivity of their missions, the identities of all active operatives, exact tactical strength, and specific headquarters locations are entirely scrubbed from main database pools.</p>
+
+            <h4>OPERATIONAL INTEGRATION</h4>
+            <p>While technically designated as a Mobile Task Force under the Department of Task Forces (DTF), Beta-1 functions almost entirely as an active-clandestine wing of the Internal Security Department (ISD). Because of its ghost-like operational profile, Beta-1 is widely considered a myth or urban legend among standard Foundation employees.</p>
+
+            <h4>TACTICAL STRUCTURE</h4>
+            <ul>
+                <li><strong>Undercover Divisions:</strong> Deep-cover agents embedded long-term into highly sensitive Foundation projects and sectors to monitor for systemic rot or personnel irregularities.</li>
+                <li><strong>Internal Combat Divisions:</strong> Heavy tactical suppression units trained specifically for asymmetric close-quarters combat inside Foundation facilities. These squads are deployed exclusively to resolve internal armed mutiny, compromised site high-command scenarios, or specific <span class="redacted">████████</span> containment breaches.</li>
+            </ul>
+
+            <h4>SECURITY PROTOCOLS</h4>
+            <p>All field operations dictate the strict enforcement of multi-layered encryption keys, heavily compartmentalized operational knowledge, and aggressive recursive record purges. Following the successful closure of an operation, specialized data scrubbers erase all active digital and physical footprints to maintain absolute operational deniability across the <span class="redacted">████</span> grid.</p>
+        </main>
+    </div>
+
+</body>
+</html>
