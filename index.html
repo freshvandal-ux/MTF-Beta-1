@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FOUNDATION INTNET // BETA-1 DOSSIER</title>
+    <title>SCiP-NET // SYSTEM INTERFACE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -30,9 +30,10 @@
                 linear-gradient(90deg, rgba(11, 17, 24, 0.3) 1px, transparent 1px);
             background-size: 20px 20px;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* Scanline Overlay Vibe */
+        /* CRT Scanline Effect (Applied Globally) */
         body::before {
             content: " ";
             display: block;
@@ -44,7 +45,87 @@
             pointer-events: none;
         }
 
-        /* Top Warning Banner */
+        /* ==========================================
+           BOOT SCREEN STYLES
+           ========================================== */
+        #boot-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .boot-wrapper {
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            border: 2px solid var(--glow-cyan);
+            background-color: var(--panel-color);
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.15);
+        }
+
+        .terminal-log {
+            min-height: 180px;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #8da2b5;
+        }
+
+        .log-line {
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .success { color: #00ff66; text-shadow: 0 0 5px #00ff66; }
+        .critical { color: var(--alert-red); text-shadow: 0 0 5px var(--alert-red); }
+
+        .boot-btn {
+            display: block;
+            visibility: hidden;
+            width: 100%;
+            background: rgba(0, 243, 255, 0.05);
+            border: 2px solid var(--glow-cyan);
+            color: var(--glow-cyan);
+            font-family: 'Share Tech Mono', monospace;
+            padding: 15px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px var(--glow-cyan);
+        }
+
+        .boot-btn:hover {
+            background: rgba(0, 243, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+
+        /* ==========================================
+           MAIN INTERFACE STYLES
+           ========================================== */
+        #main-interface {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease;
+            padding-bottom: 40px;
+        }
+
+        /* Class added via JS to trigger the fade-in */
+        #main-interface.revealed {
+            opacity: 1;
+            visibility: visible;
+        }
+
         .security-banner {
             background-color: rgba(255, 59, 59, 0.1);
             border-bottom: 2px solid var(--alert-red);
@@ -57,7 +138,6 @@
             text-shadow: 0 0 8px var(--alert-red);
         }
 
-        /* App Wrapper */
         .terminal-container {
             max-width: 1200px;
             margin: 20px auto;
@@ -71,7 +151,6 @@
             .terminal-container { grid-template-columns: 1fr; }
         }
 
-        /* Header UI Element */
         header {
             grid-column: 1 / -1;
             border: 1px solid rgba(0, 243, 255, 0.2);
@@ -107,7 +186,6 @@
             animation: pulse 2s infinite;
         }
 
-        /* Sidebar Navigation */
         aside {
             border: 1px solid rgba(0, 243, 255, 0.2);
             background-color: var(--panel-color);
@@ -122,10 +200,6 @@
             margin-bottom: 15px;
             border-bottom: 1px solid rgba(0, 243, 255, 0.2);
             padding-bottom: 5px;
-        }
-
-        .nav-links list {
-            list-style: none;
         }
 
         .nav-links a {
@@ -146,7 +220,6 @@
             padding-left: 15px;
         }
 
-        /* Main Content Panel */
         main {
             border: 1px solid rgba(0, 243, 255, 0.2);
             background-color: var(--panel-color);
@@ -167,7 +240,6 @@
             margin-bottom: 5px;
         }
 
-        /* Metadata Badges Block */
         .meta-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -190,7 +262,6 @@
             color: var(--glow-cyan);
         }
 
-        /* Text Styling */
         h4 {
             font-family: 'Orbitron', sans-serif;
             color: var(--glow-cyan);
@@ -223,7 +294,6 @@
             line-height: 1.5;
         }
 
-        /* Redacted Data Blocks */
         .redacted {
             background-color: #000;
             color: #000;
@@ -243,69 +313,140 @@
 </head>
 <body>
 
-    <div class="security-banner">
-        [WARNING] LEVEL 5 SECURITY CLEARANCE REQUIRED. UNAUTHORIZED ACCESS DETECTED BY MEMETIC OVERSEER.
+    <div id="boot-screen">
+        <div class="boot-wrapper">
+            <div class="terminal-log" id="log"></div>
+            <button class="boot-btn" id="boot-trigger" onclick="initializeSystem()">INITIALIZE INTERFACE</button>
+        </div>
     </div>
 
-    <div class="terminal-container">
-        <header>
-            <div class="logo-area">
-                <h1>SCP FOUNDATION DATABASE</h1>
-            </div>
-            <div class="system-status">
-                <span class="status-pulse"></span>TERMINAL NODES: ACTIVE // SECURE
-            </div>
-        </header>
+    <div id="main-interface">
+        <div class="security-banner">
+            [WARNING] LEVEL 5 SECURITY CLEARANCE REQUIRED. UNAUTHORIZED ACCESS DETECTED BY MEMETIC OVERSEER.
+        </div>
 
-        <aside>
-            <h3>DATABASE MAP</h3>
-            <nav class="nav-links">
-                <a href="#" class="active">MTF Beta-1 Dossier</a>
-            </nav>
-        </aside>
-
-        <main>
-            <div class="dossier-header">
-                <h2>MOBILE TASK FORCE BETA-1</h2>
-                <p style="color: var(--text-muted); margin: 0;">File Ref: SCiP-Net//MTF-β1-Dossier</p>
-            </div>
-
-            <div class="meta-grid">
-                <div class="meta-item">
-                    <span>DESIGNATION</span>
-                    <strong>MTF Beta-1 (β-1)</strong>
+        <div class="terminal-container">
+            <header>
+                <div class="logo-area">
+                    <h1>SCP FOUNDATION DATABASE</h1>
                 </div>
-                <div class="meta-item">
-                    <span>CODENAMES</span>
-                    <strong>Cauterizers</strong>
+                <div class="system-status">
+                    <span class="status-pulse"></span>TERMINAL NODES: ACTIVE // SECURE
                 </div>
-                <div class="meta-item">
-                    <span>CLEARANCE LEVEL</span>
-                    <strong style="color: var(--alert-red);">LEVEL 5 CLEARANCE</strong>
+            </header>
+
+            <aside>
+                <h3>DATABASE MAP</h3>
+                <nav class="nav-links">
+                    <a href="#" class="active">MTF Beta-1 Dossier</a>
+                    <a href="#">Active Operations</a>
+                    <a href="#">Incident Logs</a>
+                    <a href="#">Personnel Manifest</a>
+                </nav>
+            </aside>
+
+            <main>
+                <div class="dossier-header">
+                    <h2>MOBILE TASK FORCE BETA-1</h2>
+                    <p style="color: var(--text-muted); margin: 0;">File Ref: SCiP-Net//MTF-β1-Dossier</p>
                 </div>
-                <div class="meta-item">
-                    <span>COMMANDING NODE</span>
-                    <strong>O5 COUNCIL</strong>
+
+                <div class="meta-grid">
+                    <div class="meta-item">
+                        <span>DESIGNATION</span>
+                        <strong>MTF Beta-1 (β-1)</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span>CODENAMES</span>
+                        <strong>Cauterizers / Klub Listonoszy</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span>CLEARANCE LEVEL</span>
+                        <strong style="color: var(--alert-red);">LEVEL 5 EYES ONLY</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span>COMMANDING NODE</span>
+                        <strong>O5 COUNCIL</strong>
+                    </div>
                 </div>
-            </div>
 
-            <h4>OVERVIEW</h4>
-            <p>Mobile Task Force Beta-1 is a highly classified internal security unit specializing in counter-intelligence, anti-infiltration, and data-leak mitigation. The primary mandate of Beta-1 is to identify, track, and neutralize rogue elements or foreign intelligence assets operating within Foundation personnel, preventing critical data streams from reaching external Groups of Interest (GoIs).</p>
-            <p>Due to the extreme operational sensitivity of their missions, the identities of all active operatives, exact tactical strength, and specific headquarters locations are entirely scrubbed from main database pools.</p>
+                <h4>OVERVIEW</h4>
+                <p>Mobile Task Force Beta-1 is a highly classified internal security unit specializing in counter-intelligence, anti-infiltration, and data-leak mitigation. The primary mandate of Beta-1 is to identify, track, and neutralize rogue elements or foreign intelligence assets operating within Foundation personnel, preventing critical data streams from reaching external Groups of Interest (GoIs).</p>
+                <p>Due to the extreme operational sensitivity of their missions, the identities of all active operatives, exact tactical strength, and specific headquarters locations are entirely scrubbed from main database pools.</p>
 
-            <h4>OPERATIONAL INTEGRATION</h4>
-            <p>While technically designated as a Mobile Task Force under the Department of Task Forces (DTF), Beta-1 functions almost entirely as an active-clandestine wing of the Internal Security Department (ISD). Because of its ghost-like operational profile, Beta-1 is widely considered a myth or urban legend among standard Foundation employees.</p>
+                <h4>OPERATIONAL INTEGRATION</h4>
+                <p>While technically designated as a Mobile Task Force under the Department of Task Forces (DTF), Beta-1 functions almost entirely as an active-clandestine wing of the Internal Security Department (ISD). Because of its ghost-like operational profile, Beta-1 is widely considered a myth or urban legend among standard Foundation employees.</p>
 
-            <h4>TACTICAL STRUCTURE</h4>
-            <ul>
-                <li><strong>Undercover Divisions:</strong> Deep-cover agents embedded long-term into highly sensitive Foundation projects and sectors to monitor for systemic rot or personnel irregularities.</li>
-                <li><strong>Internal Combat Divisions:</strong> Heavy tactical suppression units trained specifically for asymmetric close-quarters combat inside Foundation facilities. These squads are deployed exclusively to resolve internal armed mutiny, compromised site high-command scenarios, or specific containment breaches.</li>
-            </ul>
+                <h4>TACTICAL STRUCTURE</h4>
+                <ul>
+                    <li><strong>Undercover Divisions:</strong> Deep-cover agents embedded long-term into highly sensitive Foundation projects and sectors to monitor for systemic rot or personnel irregularities.</li>
+                    <li><strong>Internal Combat Divisions:</strong> Heavy tactical suppression units trained specifically for asymmetric close-quarters combat inside Foundation facilities. These squads are deployed exclusively to resolve internal armed mutiny, compromised site high-command scenarios, or specific <span class="redacted">████████</span> containment breaches.</li>
+                </ul>
 
-            <h4>SECURITY PROTOCOLS</h4>
-            <p>All field operations dictate the strict enforcement of multi-layered encryption keys, heavily compartmentalized operational knowledge, and aggressive recursive record purges. Following the successful closure of an operation, specialized data scrubbers erase all active digital and physical footprints to maintain absolute operational deniability across the grid.</p>
-        </main>
+                <h4>SECURITY PROTOCOLS</h4>
+                <p>All field operations dictate the strict enforcement of multi-layered encryption keys, heavily compartmentalized operational knowledge, and aggressive recursive record purges. Following the successful closure of an operation, specialized data scrubbers erase all active digital and physical footprints to maintain absolute operational deniability across the <span class="redacted">████</span> grid.</p>
+            </main>
+        </div>
     </div>
 
+    <script>
+        const logData = [
+            "SCiP-NET v4.029 INITIALIZING...",
+            "LOADING MEMETIC FILTERS... <span class='success'>[OK]</span>",
+            "ESTABLISHING SECURE PROXY UPLINKS...",
+            "DECRYPTING FILE SECTOR: BETA-1... <span class='success'>[SUCCESS]</span>",
+            "WARNING: OVERSEER LEVEL 5 CLEARANCE TRACKING ACTIVE.",
+            "<span class='critical'>CRITICAL NOTICE: HIGH CLEARANCE REQUIRED.</span>",
+            "READY FOR DEPLOYMENT."
+        ];
+
+        const logContainer = document.getElementById('log');
+        const bootBtn = document.getElementById('boot-trigger');
+        let currentLine = 0;
+
+        function printLog() {
+            if (currentLine < logData.length) {
+                let p = document.createElement('p');
+                p.className = 'log-line';
+                p.innerHTML = `> ${logData[currentLine]}`;
+                logContainer.appendChild(p);
+                currentLine++;
+                setTimeout(printLog, 400);
+            } else {
+                bootBtn.style.visibility = 'visible';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            printLog();
+        });
+
+        function initializeSystem() {
+            const elem = document.documentElement;
+            
+            // Go Fullscreen across modern browsers
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(err => console.log("Fullscreen blocked or bypassed"));
+            } else if (elem.webkitRequestFullscreen) { 
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { 
+                elem.msRequestFullscreen();
+            }
+
+            // Smooth UI Transition Elements
+            const bootScreen = document.getElementById('boot-screen');
+            const mainInterface = document.getElementById('main-interface');
+
+            // 1. Fade out the boot panel and shift it up slightly
+            bootScreen.style.opacity = '0';
+            bootScreen.style.transform = 'translateY(-30px)';
+
+            // 2. Wait for the fade out to finish (600ms match), then swap displays
+            setTimeout(() => {
+                bootScreen.style.display = 'none'; // Drops out of viewport completely
+                mainInterface.classList.add('revealed'); // Triggers CSS opacity fade-in
+            }, 600);
+        }
+    </script>
 </body>
 </html>
