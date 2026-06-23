@@ -312,7 +312,7 @@
     </style>
 </head>
 <body>
-
+    <audio id="ambient-loop" src="freesound_community-computer-fan-ambience-72053.mp3" loop></audio>
     <div id="boot-screen">
         <div class="boot-wrapper">
             <div class="terminal-log" id="log"></div>
@@ -392,8 +392,6 @@
             "LOADING MEMETIC FILTERS... <span class='success'>[OK]</span>",
             "ESTABLISHING SECURE PROXY UPLINKS...",
             "DECRYPTING FILE SECTOR: BETA-1... <span class='success'>[SUCCESS]</span>",
-            "WARNING: OVERSEER LEVEL 5 CLEARANCE TRACKING ACTIVE.",
-            "<span class='critical'>CRITICAL NOTICE: HIGH CLEARANCE REQUIRED.</span>",
             "READY FOR DEPLOYMENT."
         ];
 
@@ -418,32 +416,38 @@
             printLog();
         });
 
-        function initializeSystem() {
-            const elem = document.documentElement;
-            
-            // Go Fullscreen across modern browsers
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen().catch(err => console.log("Fullscreen blocked or bypassed"));
-            } else if (elem.webkitRequestFullscreen) { 
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { 
-                elem.msRequestFullscreen();
-            }
+       function initializeSystem() {
+    const elem = document.documentElement;
+    
+    // Go Fullscreen across modern browsers
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(err => console.log("Fullscreen blocked or bypassed"));
+    } else if (elem.webkitRequestFullscreen) { 
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { 
+        elem.msRequestFullscreen();
+    }
 
-            // Smooth UI Transition Elements
-            const bootScreen = document.getElementById('boot-screen');
-            const mainInterface = document.getElementById('main-interface');
+    const ambientAudio = document.getElementById('ambient-loop');
+    if (ambientAudio) {
+        ambientAudio.volume = 0.4; 
+        ambientAudio.play().catch(error => console.log("Ambient audio blocked:", error));
+    }
 
-            // 1. Fade out the boot panel and shift it up slightly
-            bootScreen.style.opacity = '0';
-            bootScreen.style.transform = 'translateY(-30px)';
+    // Smooth UI Transition Elements
+    const bootScreen = document.getElementById('boot-screen');
+    const mainInterface = document.getElementById('main-interface');
 
-            // 2. Wait for the fade out to finish (600ms match), then swap displays
-            setTimeout(() => {
-                bootScreen.style.display = 'none'; // Drops out of viewport completely
-                mainInterface.classList.add('revealed'); // Triggers CSS opacity fade-in
-            }, 600);
-        }
+    if (bootScreen && mainInterface) {
+        bootScreen.style.opacity = '0';
+        bootScreen.style.transform = 'translateY(-30px)';
+
+        setTimeout(() => {
+            bootScreen.style.display = 'none';
+            mainInterface.classList.add('revealed');
+        }, 600);
+    }
+}
     </script>
 </body>
 </html>
