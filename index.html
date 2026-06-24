@@ -33,6 +33,7 @@
             min-height: 100vh;
         }
 
+        /* Global CRT Scanline Screen Overlay */
         body::before {
             content: " ";
             display: block;
@@ -44,61 +45,38 @@
             pointer-events: none;
         }
 
+        /* LAYER 1: BOOT/LOG SCREEN */
         #boot-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
+            top: 0; left: 0; width: 100%; height: 100vh;
             background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
             z-index: 100;
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .boot-wrapper {
-            width: 90%;
-            max-width: 600px;
-            padding: 30px;
+            width: 90%; max-width: 600px; padding: 30px;
             border: 2px solid var(--glow-cyan);
             background-color: var(--panel-color);
             box-shadow: 0 0 25px rgba(0, 243, 255, 0.15);
         }
 
         .terminal-log {
-            min-height: 180px;
-            max-height: 250px;
-            overflow-y: auto;
-            margin-bottom: 25px;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #8da2b5;
+            min-height: 180px; max-height: 250px; overflow-y: auto;
+            margin-bottom: 25px; font-size: 1.05rem; line-height: 1.6; color: #8da2b5;
         }
 
-        .log-line {
-            margin-bottom: 6px;
-            display: block;
-        }
-
+        .log-line { margin-bottom: 6px; display: block; }
         .success { color: #00ff66; text-shadow: 0 0 5px #00ff66; }
         .critical { color: var(--alert-red); text-shadow: 0 0 5px var(--alert-red); }
 
         .boot-btn {
-            display: block;
-            visibility: hidden;
-            width: 100%;
-            background: rgba(0, 243, 255, 0.05);
-            border: 2px solid var(--glow-cyan);
-            color: var(--glow-cyan);
-            font-family: 'Share Tech Mono', monospace;
-            padding: 15px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 5px var(--glow-cyan);
+            display: block; visibility: hidden; width: 100%;
+            background: rgba(0, 243, 255, 0.05); border: 2px solid var(--glow-cyan);
+            color: var(--glow-cyan); font-family: 'Share Tech Mono', monospace;
+            padding: 15px; font-size: 1.2rem; cursor: pointer; letter-spacing: 2px;
+            transition: all 0.3s ease; text-shadow: 0 0 5px var(--glow-cyan);
         }
 
         .boot-btn:hover {
@@ -106,37 +84,72 @@
             box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
         }
 
-        #main-interface {
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.8s ease;
-            padding-bottom: 40px;
+        /* LAYER 2: INTERACTIVE MEMETIC SECURITY SCREEN */
+        #memetic-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: #030508;
+            display: none; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 90; text-align: center; padding: 20px;
         }
 
-        #main-interface.revealed {
-            opacity: 1;
-            visibility: visible;
+        .memetic-hazard-symbol {
+            width: 150px; height: 150px; margin-bottom: 30px;
+            border: 4px double var(--alert-red); border-radius: 50%;
+            position: relative; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 0 30px rgba(255, 59, 59, 0.2);
+            animation: spinFractal 8s linear infinite;
+        }
+
+        .memetic-hazard-symbol::before, .memetic-hazard-symbol::after {
+            content: ''; position: absolute; width: 70%; height: 70%;
+            border: 2px solid var(--alert-red); transform: rotate(45deg);
+            animation: counterSpin 4s linear infinite;
+        }
+        .memetic-hazard-symbol::after {
+            width: 40%; height: 40%; border-color: #fff; transform: rotate(15deg);
+        }
+
+        .memetic-title {
+            font-family: 'Orbitron', sans-serif; color: var(--alert-red);
+            font-size: 1.6rem; letter-spacing: 4px; margin-bottom: 10px;
+            text-shadow: 0 0 10px var(--alert-red);
+        }
+
+        .memetic-status {
+            font-size: 1.1rem; color: #fff; text-transform: uppercase;
+            letter-spacing: 2px; animation: pulseText 1.5s infinite;
+        }
+
+        /* LAYER 3: MAIN SYSTEM CORE */
+        #main-interface {
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.4s ease; padding-bottom: 40px;
+        }
+
+        #main-interface.revealed { opacity: 1; visibility: visible; }
+
+        /* ADVANCED HARDWARE GLITCH MATRIX */
+        .glitch-active {
+            animation: screenShake 0.4s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+        .glitch-active::after {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 243, 255, 0.1); z-index: 9998;
+            mix-blend-mode: overlay; animation: displacementLines 0.2s infinite;
         }
 
         .security-banner {
-            background-color: rgba(255, 59, 59, 0.1);
-            border-bottom: 2px solid var(--alert-red);
-            color: var(--alert-red);
-            text-align: center;
-            padding: 8px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
+            background-color: rgba(255, 59, 59, 0.1); border-bottom: 2px solid var(--alert-red);
+            color: var(--alert-red); text-align: center; padding: 8px;
+            font-family: 'Orbitron', sans-serif; font-size: 0.8rem; letter-spacing: 2px;
             text-shadow: 0 0 8px var(--alert-red);
         }
 
         .terminal-container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 20px;
+            max-width: 1200px; margin: 20px auto; padding: 0 20px;
+            display: grid; grid-template-columns: 280px 1fr; gap: 20px;
         }
 
         @media (max-width: 768px) {
@@ -144,162 +157,198 @@
         }
 
         header {
-            grid-column: 1 / -1;
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            background-color: var(--panel-color);
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            grid-column: 1 / -1; border: 1px solid rgba(0, 243, 255, 0.2);
+            background-color: var(--panel-color); padding: 20px;
+            display: flex; justify-content: space-between; align-items: center;
             box-shadow: 0 0 15px rgba(0, 243, 255, 0.05);
         }
 
         .logo-area h1 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--glow-cyan);
-            font-size: 1.5rem;
+            font-family: 'Orbitron', sans-serif; color: var(--glow-cyan); font-size: 1.5rem;
             text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
         }
 
-        .system-status {
-            text-align: right;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
+        .system-status { text-align: right; color: var(--text-muted); font-size: 0.85rem; }
         .status-pulse {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: #00ff66;
-            border-radius: 50%;
-            margin-right: 5px;
-            box-shadow: 0 0 8px #00ff66;
+            display: inline-block; width: 8px; height: 8px; background-color: #00ff66;
+            border-radius: 50%; margin-right: 5px; box-shadow: 0 0 8px #00ff66;
             animation: pulse 2s infinite;
         }
 
-        aside {
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            background-color: var(--panel-color);
-            padding: 20px;
-            height: fit-content;
-        }
-
+        aside { border: 1px solid rgba(0, 243, 255, 0.2); background-color: var(--panel-color); padding: 20px; height: fit-content; }
         aside h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--glow-cyan);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
-            padding-bottom: 5px;
+            font-family: 'Orbitron', sans-serif; color: var(--glow-cyan); font-size: 0.9rem;
+            margin-bottom: 15px; border-bottom: 1px solid rgba(0, 243, 255, 0.2); padding-bottom: 5px;
         }
 
         .nav-links a {
-            display: block;
-            color: var(--text-main);
-            text-decoration: none;
-            padding: 8px 10px;
-            margin-bottom: 5px;
-            border-left: 2px solid transparent;
-            transition: all 0.2s ease;
+            display: block; color: var(--text-main); text-decoration: none;
+            padding: 8px 10px; margin-bottom: 5px; border-left: 2px solid transparent;
+            transition: all 0.2s ease; cursor: pointer;
         }
 
         .nav-links a:hover, .nav-links a.active {
-            background: rgba(0, 243, 255, 0.05);
-            border-left-color: var(--glow-cyan);
-            color: var(--glow-cyan);
-            text-shadow: 0 0 5px var(--glow-cyan);
-            padding-left: 15px;
+            background: rgba(0, 243, 255, 0.05); border-left-color: var(--glow-cyan);
+            color: var(--glow-cyan); text-shadow: 0 0 5px var(--glow-cyan); padding-left: 15px;
         }
 
-        main {
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            background-color: var(--panel-color);
-            padding: 30px;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.05);
+        /* NEW DEEP ARCHIVES LINK (HIDDEN BY DEFAULT) */
+        #nav-archives {
+            display: none; border: 1px dashed var(--alert-red); margin-top: 10px; color: var(--alert-red);
         }
+        #nav-archives.unlocked { display: block; animation: pulseText 2s infinite; }
 
-        .dossier-header {
-            border-bottom: 1px dashed rgba(0, 243, 255, 0.3);
-            padding-bottom: 15px;
-            margin-bottom: 25px;
+        /* CREDENTIALS / ACTIVE SESSION BOX */
+        .session-panel {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px dashed rgba(0, 243, 255, 0.15);
+            padding: 12px;
+            margin-top: 20px;
         }
-
-        .dossier-header h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-
-        .meta-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .meta-item span {
-            display: block;
+        .session-title {
             font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
         }
-
-        .meta-item strong {
-            font-size: 1.1rem;
-            color: var(--glow-cyan);
+        .session-data {
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
+        .session-data span { color: var(--text-muted); }
+        .session-data strong { color: #fff; }
 
-        h4 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--glow-cyan);
-            margin: 25px 0 10px 0;
-            font-size: 1.1rem;
+        /* LIVE INTERACTIVE COMMAND LINE STYLES */
+        .cli-container {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(0, 243, 255, 0.2);
+        }
+        .cli-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .cli-input-row {
             display: flex;
             align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 6px 10px;
+        }
+        .cli-prompt { color: var(--glow-cyan); margin-right: 8px; font-weight: bold; user-select: none; }
+        .cli-field {
+            background: transparent; border: none; outline: none; color: #fff;
+            font-family: 'Share Tech Mono', monospace; font-size: 1rem; width: 100%;
+        }
+        .cli-output { margin-top: 8px; font-size: 0.85rem; line-height: 1.4; min-height: 20px; color: #8da2b5; white-space: pre-line; }
+
+        /* ACCORDION DROPDOWN HOOKS */
+        .accordion-item {
+            border: 1px solid rgba(0, 243, 255, 0.15);
+            background: rgba(0, 0, 0, 0.2);
+            margin-bottom: 12px;
+        }
+        .accordion-trigger {
+            width: 100%; background: rgba(0, 243, 255, 0.02); border: none;
+            color: #fff; padding: 15px; text-align: left; font-family: 'Orbitron', sans-serif;
+            font-size: 1rem; cursor: pointer; display: flex; justify-content: space-between;
+            align-items: center; transition: all 0.2s ease;
+        }
+        .accordion-trigger:hover { background: rgba(0, 243, 255, 0.08); color: var(--glow-cyan); }
+        .accordion-trigger::after { content: '[ + ]'; font-family: 'Share Tech Mono', monospace; color: var(--text-muted); font-size: 0.9rem; }
+        .accordion-item.open .accordion-trigger::after { content: '[ - ]'; color: var(--glow-cyan); }
+        
+        .accordion-content {
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease;
+            padding: 0 20px;
+        }
+        .accordion-item.open .accordion-content {
+            max-height: 1500px; padding: 20px; border-top: 1px dashed rgba(0, 243, 255, 0.15);
         }
 
-        h4::before {
-            content: "> ";
-            margin-right: 8px;
-            color: var(--alert-red);
+        .email-block {
+            background: rgba(11, 17, 24, 0.6); border-left: 3px solid var(--glow-cyan);
+            padding: 15px; margin-bottom: 15px; font-size: 0.95rem;
+        }
+        .email-block {
+            background: rgba(11, 17, 24, 0.6); border-left: 3px solid var(--glow-cyan);
+            padding: 15px; margin-bottom: 15px; font-size: 0.95rem;
+        }
+        .email-meta {
+            color: var(--text-muted); margin-bottom: 8px; font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 4px;
         }
 
-        p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: var(--text-main);
-            font-size: 1.05rem;
+        main {
+            border: 1px solid rgba(0, 243, 255, 0.2); background-color: var(--panel-color);
+            padding: 30px; box-shadow: 0 0 15px rgba(0, 243, 255, 0.05);
         }
 
-        ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
+        .db-view { display: none; }
+        .db-view.active-view { display: block; animation: terminalScanIn 0.3s ease-out; }
+
+        .dossier-header { border-bottom: 1px dashed rgba(0, 243, 255, 0.3); padding-bottom: 15px; margin-bottom: 25px; }
+        .dossier-header h2 { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: #fff; margin-bottom: 5px; }
+
+        .meta-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
+            margin-bottom: 30px; background: rgba(0, 0, 0, 0.3); padding: 15px; border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        li {
-            margin-bottom: 8px;
-            line-height: 1.5;
-        }
+        .meta-item span { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+        .meta-item strong { font-size: 1.1rem; color: var(--glow-cyan); }
 
+        .anomaly-card { border: 1px solid rgba(255, 255, 255, 0.05); background: rgba(0, 0, 0, 0.2); padding: 20px; margin-bottom: 20px; }
+        .anomaly-card header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: transparent; border: none; box-shadow: none; padding: 0; margin-bottom: 10px; grid-column: auto;
+        }
+        
+        .anomaly-id { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: #fff; }
+        .object-class { font-size: 0.9rem; font-weight: bold; padding: 3px 8px; border: 1px solid transparent; }
+        .class-keter { color: var(--alert-red); border-color: var(--alert-red); background: rgba(255,59,59,0.05); }
+        .class-thaumiel { color: #bb86fc; border-color: #bb86fc; background: rgba(187,134,252,0.05); }
+        .class-classified { color: #ffb300; border-color: #ffb300; background: rgba(255,179,0,0.05); }
+
+        h4 { font-family: 'Orbitron', sans-serif; color: var(--glow-cyan); margin: 25px 0 10px 0; font-size: 1.1rem; display: flex; align-items: center; }
+        h4::before { content: "> "; margin-right: 8px; color: var(--alert-red); }
+        p { line-height: 1.6; margin-bottom: 15px; color: var(--text-main); font-size: 1.05rem; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; line-height: 1.5; }
+
+        /* ADVANCED DECLASSIFICATION ENGINE */
         .redacted {
-            background-color: #000;
-            color: #000;
-            padding: 0 3px;
-            user-select: none;
-            border-radius: 2px;
-            display: inline-block;
-            line-height: 1;
+            background-color: #000; color: #000; padding: 0 4px;
+            user-select: none; border-radius: 2px; display: inline;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        body.declassified .redacted {
+            background-color: rgba(255, 59, 59, 0.12); color: var(--alert-red);
+            border: 1px solid rgba(255, 59, 59, 0.3); user-select: auto;
         }
 
-        @keyframes pulse {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
+        /* ALL ANIMATIONS MATRICES */
+        @keyframes spinFractal { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes counterSpin { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+        @keyframes pulseText { 0%, 100% { opacity: 0.3; text-shadow: 0 0 2px rgba(255,255,255,0.1); } 50% { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.6); } }
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+        @keyframes terminalScanIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        @keyframes screenShake {
+            0% { transform: translate(0, 0) skewX(0deg); }
+            20% { transform: translate(-2px, 1px) skewX(-1deg); }
+            40% { transform: translate(2px, -1px) skewX(2deg); }
+            60% { transform: translate(-1px, -1px) skewX(0deg); }
+            80% { transform: translate(3px, 1px) skewX(1deg); }
+            100% { transform: translate(0, 0) skewX(0deg); }
+        }
+        @keyframes displacementLines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
         }
     </style>
 </head>
@@ -313,6 +362,12 @@
             <div class="terminal-log" id="log"></div>
             <button class="boot-btn" id="boot-trigger" onclick="initializeSystem()">INITIALIZE INTERFACE</button>
         </div>
+    </div>
+
+    <div id="memetic-screen">
+        <div class="memetic-hazard-symbol"></div>
+        <div class="memetic-title">MEMETIC KILL AGENT ACTIVATED</div>
+        <div class="memetic-status" id="memetic-text">SCANNING RETINAL COMPATIBILITY... DO NOT LOOK AWAY</div>
     </div>
 
     <div id="main-interface">
@@ -333,58 +388,219 @@
             <aside>
                 <h3>DATABASE MAP</h3>
                 <nav class="nav-links">
-                    <a href="#" class="active">MTF Beta-1 Dossier</a>
+                    <a id="nav-dossier" class="active" onclick="switchDatabaseView('dossier')">MTF Beta-1 Dossier</a>
+                    <a id="nav-anomalies" onclick="switchDatabaseView('anomalies')">Contained Anomalies</a>
+                    <a id="nav-events" onclick="switchDatabaseView('events')">Operational Logs</a>
+                    <a id="nav-archives" onclick="switchDatabaseView('archives')">// DEEP ARCHIVES</a>
                 </nav>
+
+                <div class="session-panel">
+                    <div class="session-title">Active Session Node</div>
+                    <div class="session-data">
+                        <span>OPERATIVE:</span> <strong>Hunter Verdigo</strong><br>
+                        <span>RANK REGS:</span> <strong style="color: var(--glow-cyan);">Beta-1-01</strong><br>
+                        <span>CLEARANCE:</span> <strong style="color: var(--alert-red);">LEVEL 5 [O5-DIR]</strong>
+                    </div>
+                </div>
+
+                <div class="cli-container">
+                    <div class="cli-label">Console Input Node</div>
+                    <div class="cli-input-row">
+                        <span class="cli-prompt">></span>
+                        <input type="text" class="cli-field" id="terminal-input" placeholder="type 'help'..." autocomplete="off" spellcheck="false">
+                    </div>
+                    <div class="cli-output" id="terminal-output">SCiP-NET terminal link steady.</div>
+                </div>
             </aside>
 
             <main>
-                <div class="dossier-header">
-                    <h2>MOBILE TASK FORCE BETA-1</h2>
-                    <p style="color: var(--text-muted); margin: 0;">File Ref: SCiP-Net//MTF-β1-Dossier</p>
+                <div id="view-dossier" class="db-view active-view">
+                    <div class="dossier-header">
+                        <h2>MOBILE TASK FORCE BETA-1</h2>
+                        <p style="color: var(--text-muted); margin: 0;">File Ref: SCiP-Net//MTF-β1-Dossier</p>
+                    </div>
+
+                    <div class="meta-grid">
+                        <div class="meta-item">
+                            <span>DESIGNATION</span>
+                            <strong>MTF Beta-1 (β-1)</strong>
+                        </div>
+                        <div class="meta-item">
+                            <span>CODENAMES</span>
+                            <strong>Cauterizers</strong>
+                        </div>
+                        <div class="meta-item">
+                            <span>CLEARANCE LEVEL</span>
+                            <strong style="color: var(--alert-red);">LEVEL 5</strong>
+                        </div>
+                        <div class="meta-item">
+                            <span>COMMANDING NODE</span>
+                            <strong>O5 COUNCIL</strong>
+                        </div>
+                    </div>
+
+                    <h4>OVERVIEW</h4>
+                    <p>Mobile Task Force Beta-1 is a highly classified internal security unit specializing in counter-intelligence, anti-infiltration, and data-leak mitigation. The primary mandate of Beta-1 is to identify, track, and neutralize rogue elements or foreign intelligence assets operating within Foundation personnel, preventing critical data streams from reaching external Groups of Interest (GoIs).</p>
+                    <p>Due to the extreme operational sensitivity of their missions, the identities of all active operatives, exact tactical strength, and specific headquarters locations are entirely scrubbed from main database pools.</p>
+
+                    <h4>OPERATIONAL INTEGRATION</h4>
+                    <p>While technically designated as a Mobile Task Force under the Department of Task Forces (DTF), Beta-1 functions almost entirely as an active-clandestine wing of the Internal Security Department (ISD). Because of its ghost-like operational profile, Beta-1 is widely considered a myth or urban legend among standard Foundation employees.</p>
+
+                    <h4>TACTICAL STRUCTURE</h4>
+                    <ul>
+                        <li><strong>Undercover Divisions:</strong> Deep-cover agents embedded long-term into highly sensitive Foundation projects and sectors to monitor for systemic rot or personnel irregularities.</li>
+                        <li><strong>Internal Combat Divisions:</strong> Heavy tactical suppression units trained specifically for asymmetric close-quarters combat inside Foundation facilities. These squads are deployed exclusively to resolve internal armed mutiny, compromised site high-command scenarios, or specific <span class="redacted">COGNITOHAZARD-DRIVEN [REF: SECURE-HANDSHAKE: "O5-ALPHA"]</span> containment breaches.</li>
+                    </ul>
+
+                    <h4>SECURITY PROTOCOLS</h4>
+                    <p>All field operations dictate the strict enforcement of multi-layered encryption keys, heavily compartmentalized operational knowledge, and aggressive recursive record purges. Following the successful closure of an operation, specialized data scrubbers erase all active digital and physical footprints to maintain absolute operational deniability across the <span class="redacted">O5 COUNCIL NETWORK</span> grid.</p>
                 </div>
 
-                <div class="meta-grid">
-                    <div class="meta-item">
-                        <span>DESIGNATION</span>
-                        <strong>MTF Beta-1 (β-1)</strong>
+                <div id="view-anomalies" class="db-view">
+                    <div class="dossier-header">
+                        <h2>TACTICAL CONTAINMENT REGISTRY</h2>
+                        <p style="color: var(--text-muted); margin: 0;">File Ref: SCiP-Net//MTF-β1-Anomalies</p>
                     </div>
-                    <div class="meta-item">
-                        <span>CODENAMES</span>
-                        <strong>Cauterizers</strong>
+
+                    <p style="margin-bottom: 25px; color: var(--text-muted);">The following anomalies are explicitly assigned to or secured by MTF Beta-1 forces due to their high information-hazard risk or connection to institutional mutiny.</p>
+
+                    <div class="anomaly-card">
+                        <header>
+                            <div class="anomaly-id">SCP-001</div>
+                            <div class="object-class class-classified">[CLASSIFIED]</div>
+                        </header>
+                        <p><strong>Operational Mandate:</strong> Beta-1 handles extreme operational counter-reconnaissance regarding the nature of SCP-001 proposals. Elements of the "Cauterizers" are deployed directly to scrub leaks or neutralize unauthorized terminal accesses attempting to map out real or decoy network clusters associated with the primary slot.</p>
                     </div>
-                    <div class="meta-item">
-                        <span>CLEARANCE LEVEL</span>
-                        <strong style="color: var(--alert-red);">LEVEL 5</strong>
+
+                    <div class="anomaly-card">
+                        <header>
+                            <div class="anomaly-id">SCP-7402</div>
+                            <div class="object-class class-keter">Keter</div>
+                        </header>
+                        <p><strong>Operational Mandate:</strong> Deployed as a localized response block. Beta-1 forces control information containment cascades resulting from <span class="redacted">MEMETIC CORRUPTION ARRAY</span> kinetic properties. Operatives implement memory protocols and system sanitizations across compromised communication sectors.</p>
                     </div>
-                    <div class="meta-item">
-                        <span>COMMANDING NODE</span>
-                        <strong>O5 COUNCIL</strong>
+
+                    <div class="anomaly-card">
+                        <header>
+                            <div class="anomaly-id">SCP-8139</div>
+                            <div class="object-class class-keter">Keter</div>
+                        </header>
+                        <p><strong>Operational Mandate:</strong> Specialized data isolation and structural security. Tactical internal combat divisions are stationed on-site at sector <span class="redacted">SITE-19 COMMUNICATIONS HUB</span> to intercept internal communications attempting to route data streams regarding SCP-8139 to external actors.</p>
+                    </div>
+
+                    <div class="anomaly-card">
+                        <header>
+                            <div class="anomaly-id">SCP-8425</div>
+                            <div class="object-class class-thaumiel">Thaumiel</div>
+                        </header>
+                        <p><strong>Operational Mandate:</strong> Active defense synchronization. Beta-1 utilizes components of SCP-8425's unique sub-system attributes to execute deep network tracking arrays. This allows the clandestine counter-intelligence units to intercept rogue transmissions before they exit the Foundation’s regional framework.</p>
+                    </div>
+
+                    <div class="anomaly-card">
+                        <header>
+                            <div class="anomaly-id">SCP-9603</div>
+                            <div class="object-class class-keter">Keter</div>
+                        </header>
+                        <p><strong>Operational Mandate:</strong> Complete deployment of electronic and signal-jamming arrays. Beta-1 enforces the strict quarantine of information assets tied to SCP-9603's conceptual threat footprint, scrubbing administrative records across the database grid continuously.</p>
                     </div>
                 </div>
 
-                <h4>OVERVIEW</h4>
-                <p>Mobile Task Force Beta-1 is a highly classified internal security unit specializing in counter-intelligence, anti-infiltration, and data-leak mitigation. The primary mandate of Beta-1 is to identify, track, and neutralize rogue elements or foreign intelligence assets operating within Foundation personnel, preventing critical data streams from reaching external Groups of Interest (GoIs).</p>
-                <p>Due to the extreme operational sensitivity of their missions, the identities of all active operatives, exact tactical strength, and specific headquarters locations are entirely scrubbed from main database pools.</p>
+                <div id="view-events" class="db-view">
+                    <div class="dossier-header">
+                        <h2>ARCHIVAL OPERATIONAL HISTORIES</h2>
+                        <p style="color: var(--text-muted); margin: 0;">File Ref: SCiP-Net//MTF-β1-History</p>
+                    </div>
 
-                <h4>OPERATIONAL INTEGRATION</h4>
-                <p>While technically designated as a Mobile Task Force under the Department of Task Forces (DTF), Beta-1 functions almost entirely as an active-clandestine wing of the Internal Security Department (ISD). Because of its ghost-like operational profile, Beta-1 is widely considered a myth or urban legend among standard Foundation employees.</p>
+                    <p style="margin-bottom: 25px;">Select an emergency record event file from the ledger nodes below to project active debrief logs and corresponding communications logs.</p>
 
-                <h4>TACTICAL STRUCTURE</h4>
-                <ul>
-                    <li><strong>Undercover Divisions:</strong> Deep-cover agents embedded long-term into highly sensitive Foundation projects and sectors to monitor for systemic rot or personnel irregularities.</li>
-                    <li><strong>Internal Combat Divisions:</strong> Heavy tactical suppression units trained specifically for asymmetric close-quarters combat inside Foundation facilities. These squads are deployed exclusively to resolve internal armed mutiny, compromised site high-command scenarios, or specific containment breaches.</li>
-                </ul>
+                    <div class="accordion-item" id="event-1">
+                        <button class="accordion-trigger" onclick="toggleAccordion('event-1')">Incident Node // I Thought You Died Alone</button>
+                        <div class="accordion-content">
+                            <p><strong>Summary Profile:</strong> A catastrophic internal security failure at Sector-04 involving deep cognito-hazard contamination of the local administrative command line. The site director went radio silent after deploying unauthorized systemic recursive purges against their own research staff.</p>
+                            <div class="email-block">
+                                <div class="email-meta">FROM: Internal Security Department Command // TO: Hunter Verdigo (Beta-1-01)</div>
+                                "Hunter, Sector-04 is completely dark. Sensors indicate the director has triggered a localized memory-wipe field. We believe they are attempting to isolate themselves alongside a localized info-hazard payload. You are authorized to deploy internal combat squads immediately. Do not prioritize personnel retention. Cauterize the leak."
+                            </div>
+                        </div>
+                    </div>
 
-                <h4>SECURITY PROTOCOLS</h4>
-                <p>All field operations dictate the strict enforcement of multi-layered encryption keys, heavily compartmentalized operational knowledge, and aggressive recursive record purges. Following the successful closure of an operation, specialized data scrubbers erase all active digital and physical footprints to maintain absolute operational deniability across the grid.</p>
+                    <div class="accordion-item" id="event-2">
+                        <button class="accordion-trigger" onclick="toggleAccordion('event-2')">Incident Node // Tall and Short Tales of the Thieves' Domain</button>
+                        <div class="accordion-content">
+                            <p><strong>Summary Profile:</strong> An asymmetric counter-intelligence op tracking down highly classified data streams being funneled to an external Group of Interest via deep network proxies routed out of the Wanderer's Library sectors.</p>
+                            <div class="email-block">
+                                <div class="email-meta">FROM: Lead Analyst Vance // TO: Hunter Verdigo (Beta-1-01)</div>
+                                "We have mapped the egress vector out of the mainframe. The rogue agent was using standard Level 4 access tokens, but routing them through nested virtual proxies. I've compiled the network architecture below, but it is heavily locked under automated safety protocols."<br><br>
+                                <strong style="color: var(--alert-red);">[CRITICAL MESSAGE OVERRIDE]:</strong><br>
+                                "Hunter, if the terminal displays filter blocks when you load the registry maps, input the master tactical bypass keyword <span style="color:#fff; border-bottom:1px dotted var(--glow-cyan);">CAUTERIZE</span> directly into the primary Console Input node. This will override database redaction matrices globally."
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" id="event-3">
+                        <button class="accordion-trigger" onclick="toggleAccordion('event-3')">Incident Node // The Dagon and The Dragon</button>
+                        <div class="accordion-content">
+                            <p><strong>Summary Profile:</strong> Synchronized deployment of digital electronic-jamming matrices during a joint regional maritime containment threat. Beta-1 was tasked with scrubbing systemic digital traces of an active entity manifestation before global regional grids could intercept anomalous satellite data.</p>
+                            <div class="email-block">
+                                <div class="email-meta">FROM: O5-7 Overseer Proxy // TO: MTF Beta-1 Command Core</div>
+                                "The regional civilian communications arrays have been thoroughly neutralized by your team. All intercepted telemetry lines regarding the deep-trench spike anomalies have been isolated and parsed into our secondary vault grids. Stellar work. The database footprint remains completely clean."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-archives" class="db-view">
+                    <div class="dossier-header">
+                        <h2 style="color: var(--alert-red);">CRITICAL CORE: O5 RESTRICTED ARCHIVES</h2>
+                        <p style="color: var(--text-muted); margin: 0;">SECURE SEGMENT Node-00 // CLASSIFIED EYES ONLY</p>
+                    </div>
+                    <p>Welcome to the absolute center of Foundation asset deployment networks. Below is the primary contingency tracking ledger available exclusively to Unit Executive <strong>Beta-1-01</strong>.</p>
+                    <div class="anomaly-card" style="border-color: var(--alert-red);">
+                        <p><strong style="color: var(--alert-red);">PROJECT CAUTERIZE FILE SUMMARY:</strong></p>
+                        <p>Mobile Task Force Beta-1 was not formed to combat outside anomalies. Its hidden, foundational mandate is the total containment of the O5 Council themselves should any single overseer fall to conceptual, memetic, or neurological infiltration by anomaly streams.</p>
+                        <p>You hold the active isolation kill-switches for terminal grid systems across all command loops. Keep your terminal clear, operative.</p>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
 
     <script>
+        // WEB AUDIO HARDWARE ENGINE (SYNTHESIZER SOUND GENERATION)
+        let audioCtx = null;
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            // CRITICAL FIX: Explicitly resume context to bypass strict browser block policies
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+        function playTone(freq, type, duration, vol) {
+            try {
+                initAudio();
+                if (!audioCtx) return;
+                let osc = audioCtx.createOscillator();
+                let gainNode = audioCtx.createGain();
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.type = type || 'sine';
+                osc.frequency.value = freq;
+                gainNode.gain.setValueAtTime(vol || 0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        // DECRYPTION DOWNLOAD CIPHER GAME STATE
+        let downloadInProgress = false;
+        let cipherSolved = false;
+
         const logData = [
             "SCiP-NET v4.029 INITIALIZING...",
-            "LOADING MEMETIC FILTERS... <span class='success'>[OK]</span>",
+            "LOADING OSCILLATOR AUDIO CHANNELS... <span class='success'>[OK]</span>",
             "ESTABLISHING SECURE PROXY UPLINKS...",
             "DECRYPTING FILE SECTOR: BETA-1... <span class='success'>[SUCCESS]</span>",
             "READY FOR DEPLOYMENT."
@@ -409,49 +625,256 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             printLog();
+            setupCommandLine();
         });
 
+        function switchDatabaseView(viewName) {
+            playTone(880, 'sine', 0.1, 0.05); // UI Interaction tone
+            document.body.classList.add('glitch-active');
+            setTimeout(() => { document.body.classList.remove('glitch-active'); }, 200);
+
+            const allViews = document.querySelectorAll('.db-view');
+            allViews.forEach(view => view.classList.remove('active-view'));
+
+            const allLinks = document.querySelectorAll('.nav-links a');
+            allLinks.forEach(link => link.classList.remove('active'));
+
+            const targetView = document.getElementById(`view-${viewName}`);
+            if (targetView) targetView.classList.add('active-view');
+
+            const targetLink = document.getElementById(`nav-${viewName}`);
+            if (targetLink) targetLink.classList.add('active');
+        }
+
+        // ACCORDION TOGGLE SUBSYSTEM
+        function toggleAccordion(itemId) {
+            playTone(600, 'sine', 0.08, 0.05); // Accordion open tone
+            const item = document.getElementById(itemId);
+            const isOpen = item.classList.contains('open');
+            
+            // Close all items first for a clean accordion effect
+            document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
+            
+            // If it wasn't open, open it
+            if (!isOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        // TERMINAL COMMAND COMMAND LINE PROCESSING
+        function setupCommandLine() {
+            const inputField = document.getElementById('terminal-input');
+            const outputField = document.getElementById('terminal-output');
+
+            inputField.addEventListener('keydown', function(e) {
+                if (e.key.length === 1) {
+                    playTone(1200, 'triangle', 0.02, 0.03); // Retro key click
+                }
+
+                if (e.key === 'Enter') {
+                    const command = inputField.value.trim();
+                    const lowerCmd = command.toLowerCase();
+                    inputField.value = ''; 
+
+                    if (!command) return;
+
+                    // MINIGAME ONGOING IN MANAGEMENT PANEL
+                    if (downloadInProgress) {
+                        if (lowerCmd === 'beta-1') {
+                            downloadInProgress = false;
+                            cipherSolved = true;
+                            playTone(880, 'sine', 0.4, 0.1);
+                            outputField.innerText = "[SUCCESS] CRYPTOGRAPHIC LOCK REMOVED.\nResuming file sync payload configuration...";
+                            runDownloadMeter(100, 70);
+                        } else {
+                            playTone(180, 'square', 0.3, 0.15); // Error tone
+                            outputField.innerText = "[ERROR] INVALID ARCHITECTURAL SHAKE DECRYPTION STRING.\nCipher validation failure. Try again. Hint: What task force is this?";
+                        }
+                        return;
+                    }
+
+                    // SECRET 1: OVERRIDE FOR REDACTIONS
+                    if (lowerCmd === 'cauterize') {
+                        playTone(520, 'sawtooth', 0.6, 0.08); // Big override tone
+                        document.body.classList.add('glitch-active');
+                        outputField.innerText = "DECLASSIFYING CORE REGISTRIES... PLEASE STAND BY...";
+                        outputField.style.color = "#ffb300";
+
+                        setTimeout(() => {
+                            document.body.classList.remove('glitch-active');
+                            document.body.classList.add('declassified'); // permanently changes redaction styling!
+                            outputField.innerHTML = "[SUCCESS] OVERRIDE ACCEPTED.<br>All security redaction panels have been stripped from local buffers. Read exposed data blocks to locate deep archive secure token.";
+                            outputField.style.color = "#00ff66";
+                        }, 1200);
+                        return;
+                    }
+
+                    // SECRET 2: DEEP ARCHIVES UNLOCK HANDSHAKE
+                    if (lowerCmd === 'o5-alpha') {
+                        if (!document.body.classList.contains('declassified')) {
+                            playTone(180, 'square', 0.3, 0.15);
+                            outputField.innerText = "ERR: Root string rejected by administrative engine. Access token unauthorized.";
+                            outputField.style.color = "var(--alert-red)";
+                            return;
+                        }
+                        playTone(1046, 'sine', 0.5, 0.1);
+                        document.getElementById('nav-archives').classList.add('unlocked');
+                        switchDatabaseView('archives');
+                        outputField.style.color = "#00ff66";
+                        outputField.innerText = "[DEEP LINK AUTHENTICATED]: Restricted Node Map compiled below.";
+                        return;
+                    }
+
+                    // ACTIVE FILE DOWNLOAD CONTROLLER
+                    if (lowerCmd.startsWith('download ')) {
+                        const targetFile = lowerCmd.substring(9).trim();
+                        if (targetFile === 'scp-7402-logs' || targetFile === 'scp-7402') {
+                            outputField.style.color = "#8da2b5";
+                            outputField.innerText = "Initializing connection array to isolated registry vault...";
+                            downloadInProgress = false;
+                            runDownloadMeter(0, 0);
+                        } else {
+                            playTone(180, 'square', 0.3, 0.15);
+                            outputField.style.color = "var(--alert-red)";
+                            outputField.innerText = "ERR: Package target not found. Usage: download scp-7402-logs";
+                        }
+                        return;
+                    }
+
+                    switch (lowerCmd) {
+                        case 'help':
+                            outputField.innerHTML = "AVAILABLE STRINGS:<br>• view dossier<br>• view anomalies<br>• view history<br>• download scp-7402-logs<br>• system diagnostics<br>• clear";
+                            outputField.style.color = "var(--glow-cyan)";
+                            break;
+                        case 'view dossier':
+                            switchDatabaseView('dossier');
+                            outputField.innerText = "Displaying file entry: MTF Beta-1 Dossier.";
+                            outputField.style.color = "#00ff66";
+                            break;
+                        case 'view anomalies':
+                            switchDatabaseView('anomalies');
+                            outputField.innerText = "Accessing Tactical Containment Registry.";
+                            outputField.style.color = "#00ff66";
+                            break;
+                        case 'view history':
+                        case 'view logs':
+                        case 'view events':
+                            switchDatabaseView('events');
+                            outputField.innerText = "Displaying classified Archival Operational Histories ledger.";
+                            outputField.style.color = "#00ff66";
+                            break;
+                        case 'view archives':
+                            if(document.getElementById('nav-archives').classList.contains('unlocked')) {
+                                switchDatabaseView('archives');
+                                outputField.style.color = "#00ff66";
+                                outputField.innerText = "Displaying root O5 contingency logs.";
+                            } else {
+                                playTone(180, 'square', 0.3, 0.15);
+                                outputField.style.color = "var(--alert-red)";
+                                outputField.innerText = "ERR: Privilege level mismatch. Command unavailable on standard channel nodes.";
+                            }
+                            break;
+                        case 'system diagnostics':
+                            outputField.innerHTML = "SCiP-NET CORE: ONLINE<br>MEMETIC OVERSEER: WATCHING<br>LOCAL RECURSIVE PURGES: STABLE";
+                            outputField.style.color = "#fff";
+                            break;
+                        case 'clear':
+                            outputField.innerText = "";
+                            break;
+                        case 'scp-001':
+                        case 'scp-7402':
+                        case 'scp-8139':
+                        case 'scp-8425':
+                        case 'scp-9603':
+                            switchDatabaseView('anomalies');
+                            outputField.innerText = `Routing hardware node to core index files of ${lowerCmd.toUpperCase()}...`;
+                            outputField.style.color = "#ffb300";
+                            break;
+                        default:
+                            playTone(180, 'square', 0.3, 0.15); // Error tone
+                            document.body.classList.add('glitch-active');
+                            setTimeout(() => { document.body.classList.remove('glitch-active'); }, 1500);
+                            outputField.innerText = `ERR: Command String '${command}' not recognized by SCiP-Net. Decryption token missing.`;
+                            outputField.style.color = "var(--alert-red)";
+                            break;
+                    }
+                }
+            });
+
+            function runDownloadMeter(startPct, currentStep) {
+                let pct = startPct;
+                downloadInProgress = false;
+                
+                function frame() {
+                    if (pct >= 70 && !cipherSolved) {
+                        downloadInProgress = true;
+                        playTone(300, 'square', 0.2, 0.1);
+                        outputField.style.color = "#8da2b5";
+                        outputField.innerHTML = `Downloading Manifest Target: SCP-7402 Logs\n[██████████████░░░░░░] 70%\n\n<strong style="color:var(--alert-red);">[ALERT] DATA PIPELINE INTERRUPTED BY CIPHER LOCK.</strong>\nResolve bypass protocol to unlock channel.\n<strong>Enter structural designation for MTF Beta-1 (e.g. 'beta-1') to confirm profile authority:</strong>`;
+                        return;
+                    }
+
+                    if (pct < 100) {
+                        pct += 5;
+                        let blocks = Math.floor(pct / 5);
+                        let bar = "█".repeat(blocks) + "░".repeat(20 - blocks);
+                        outputField.innerText = `Downloading Manifest Target: SCP-7402 Logs\n[${bar}] ${pct}%\nProcessing payload packages...`;
+                        playTone(1000, 'sine', 0.02, 0.02); // Loading tick
+                        setTimeout(frame, 150);
+                    } else {
+                        outputField.innerHTML = `Downloading Manifest Target: SCP-7402 Logs\n[████████████████████] 100%\n\n<span style="color:#00ff66;">[SUCCESS] FILE MANIFEST TRANSLATED.</span>\nData Package decrypted and saved to localized memory array storage buffers.`;
+                        cipherSolved = false; 
+                    }
+                }
+                frame();
+            }
+        }
+
         function initializeSystem() {
-            // STEP 1: FIRE AUDIO IMMEDIATELY ON CLICK CONTEXT
+            // CRITICAL FIX: Unlock both the synthesizers and custom mp3 files under the immediate gesture event
+            initAudio(); 
+
             const powerOnAudio = document.getElementById('power-on');
             if (powerOnAudio) {
-                powerOnAudio.volume = 0.6; 
-                powerOnAudio.play().catch(error => {
-                    console.error("Power-on playback failed directly:", error);
-                });
+                powerOnAudio.volume = 0.6;
+                powerOnAudio.play().catch(e => console.error("Power On Audio Failed:", e));
             }
 
             const ambientAudio = document.getElementById('ambient-loop');
             if (ambientAudio) {
-                ambientAudio.volume = 0.3; 
-                ambientAudio.play().catch(error => {
-                    console.error("Ambient loop playback failed directly:", error);
-                });
+                ambientAudio.volume = 0.3;
+                ambientAudio.play().catch(e => console.error("Ambient Loop Audio Failed:", e));
             }
 
-            // STEP 2: FULLSCREEN EXPANSION SECONDARY
             const elem = document.documentElement;
             if (elem.requestFullscreen) {
-                elem.requestFullscreen().catch(err => console.log("Fullscreen request deferred."));
-            } else if (elem.webkitRequestFullscreen) { 
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { 
-                elem.msRequestFullscreen();
+                elem.requestFullscreen().catch(() => {});
             }
 
-            // STEP 3: SMOOTH SEAMLESS TRANSITION FADE
             const bootScreen = document.getElementById('boot-screen');
+            const memeticScreen = document.getElementById('memetic-screen');
             const mainInterface = document.getElementById('main-interface');
+            const memeticText = document.getElementById('memetic-text');
 
-            if (bootScreen && mainInterface) {
-                bootScreen.style.opacity = '0';
-                bootScreen.style.transform = 'translateY(-30px)';
+            bootScreen.style.opacity = '0';
+            setTimeout(() => {
+                bootScreen.style.display = 'none';
+                memeticScreen.style.display = 'flex';
 
+                setTimeout(() => { memeticText.innerHTML = "MATCH CONFIRMED. COMPATIBILITY: 98.4%"; memeticText.style.color = "#00ff66"; }, 1500);
+                
                 setTimeout(() => {
-                    bootScreen.style.display = 'none';
+                    document.body.classList.add('glitch-active');
+                    memeticScreen.style.display = 'none';
                     mainInterface.classList.add('revealed');
-                }, 600);
-            }
+
+                    setTimeout(() => {
+                        document.body.classList.remove('glitch-active');
+                    }, 400);
+
+                }, 3000);
+
+            }, 500);
         }
     </script>
 </body>
