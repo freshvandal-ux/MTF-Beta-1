@@ -33,6 +33,7 @@
             min-height: 100vh;
         }
 
+        /* Global CRT Scanline Screen Overlay */
         body::before {
             content: " ";
             display: block;
@@ -44,6 +45,7 @@
             pointer-events: none;
         }
 
+        /* LAYER 1: BOOT/LOG SCREEN */
         #boot-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100vh;
@@ -82,6 +84,7 @@
             box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
         }
 
+        /* LAYER 2: INTERACTIVE MEMETIC SECURITY SCREEN */
         #memetic-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100vh;
@@ -119,6 +122,7 @@
             letter-spacing: 2px; animation: pulseText 1.5s infinite;
         }
 
+        /* NEW: DYNAMIC VERIFICATION SCAN OVERLAY */
         #clearance-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: rgba(5, 8, 12, 0.95); z-index: 9500;
@@ -140,20 +144,7 @@
             font-family: 'Share Tech Mono', monospace;
         }
 
-        /* NEW: ACTIVE SYSTEM BREACH SECURITY INTERFACE MODAL */
-        #breach-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: rgba(15, 3, 3, 0.97); z-index: 9600;
-            display: none; flex-direction: column; justify-content: center; align-items: center;
-            font-family: 'Orbitron', sans-serif; color: var(--alert-red);
-        }
-        .breach-box {
-            width: 500px; padding: 40px; border: 2px solid var(--alert-red);
-            background: #000; text-align: center;
-            box-shadow: 0 0 40px rgba(255, 59, 59, 0.4);
-            animation: screenShake 0.3s infinite;
-        }
-
+        /* LAYER 3: MAIN SYSTEM CORE */
         #main-interface {
             opacity: 0; visibility: hidden;
             transition: opacity 0.4s ease; padding-bottom: 40px;
@@ -161,6 +152,7 @@
 
         #main-interface.revealed { opacity: 1; visibility: visible; }
 
+        /* HEAVY INTERACTIVE GLITCH (TAB CHANGE / OVERRIDES) */
         .glitch-active {
             animation: screenShake 0.4s cubic-bezier(.25,.46,.45,.94) both infinite;
         }
@@ -170,6 +162,7 @@
             mix-blend-mode: overlay; animation: displacementLines 0.2s infinite;
         }
 
+        /* SUBTLE AMBIENT BACKGROUND GLITCH */
         .ambient-glitch {
             animation: ambientNoise 0.15s steps(2) infinite;
             filter: hue-rotate(10deg) saturate(1.3);
@@ -267,6 +260,7 @@
             font-family: 'Share Tech Mono', monospace; font-size: 1rem; width: 100%;
         }
         
+        /* NEW: LIVE SCROLLING TELEMETRY AREA */
         .cli-output {
             margin-top: 8px; font-size: 0.85rem; line-height: 1.5;
             height: 110px; overflow-y: hidden; color: #8da2b5;
@@ -355,6 +349,7 @@
             border: 1px solid rgba(255, 59, 59, 0.3); user-select: auto;
         }
 
+        /* ANIMATION DECLARATIONS */
         @keyframes spinFractal { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes counterSpin { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
         @keyframes pulseText { 0%, 100% { opacity: 0.3; text-shadow: 0 0 2px rgba(255,255,255,0.1); } 50% { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.6); } }
@@ -362,6 +357,7 @@
         @keyframes terminalScanIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scanMove { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
 
+        /* INTERACTIVE SHAKE */
         @keyframes screenShake {
             0% { transform: translate(0, 0) skewX(0deg); }
             20% { transform: translate(-3px, 1px) skewX(-1.5deg); }
@@ -371,6 +367,7 @@
             100% { transform: translate(0, 0) skewX(0deg); }
         }
 
+        /* FAST AMBIENT JITTER */
         @keyframes ambientNoise {
             0% { transform: translate(1px, 0px) scaleY(1); }
             50% { transform: translate(-1px, 1px) scaleY(1.002) skewX(0.5deg); }
@@ -406,16 +403,6 @@
             <div class="scan-line"></div>
             <h2 style="color: var(--alert-red); margin-bottom: 10px;">O5 SECURITY SCAN</h2>
             <div class="scan-text" id="clearance-status">VERIFYING DIGITAL FOOTPRINTS...</div>
-        </div>
-    </div>
-
-    <div id="breach-overlay">
-        <div class="breach-box">
-            <h1 style="font-size: 2.2rem; margin-bottom: 15px;">!!! ACTIVE SYSTEM BREACH !!!</h1>
-            <p id="breach-text" style="color: #fff; font-size: 1.1rem; margin-bottom: 25px;">MEMETIC CORRUPTION INTRUSION REGISTERED... MEMORY CORING IS ACTIVE.</p>
-            <div style="font-size: 1.2rem; color: var(--glow-cyan); font-family: 'Share Tech Mono', monospace; border: 1px dashed var(--glow-cyan); padding: 10px;">
-                Type command string <span style="color: #fff; font-weight: bold;">reboot node</span> to reset balance.
-            </div>
         </div>
     </div>
 
@@ -455,7 +442,7 @@
                 <div class="cli-container">
                     <div class="cli-label">Console Input / Telemetry</div>
                     <div class="cli-input-row">
-                        <span class="cli-prompt" id="prompt-indicator">></span>
+                        <span class="cli-prompt">></span>
                         <input type="text" class="cli-field" id="terminal-input" placeholder="type 'help'..." autocomplete="off" spellcheck="false">
                     </div>
                     <div class="cli-output" id="terminal-output">
@@ -583,7 +570,7 @@
                                 <div class="email-meta">FROM: Lead Analyst Vance // TO: Hunter Verdigo (Beta-1-01)</div>
                                 "We have mapped the egress vector out of the mainframe. The rogue agent was using standard Level 4 access tokens, but routing them through nested virtual proxies. I've compiled the network architecture below, but it is heavily locked under automated safety protocols."<br><br>
                                 <strong style="color: var(--alert-red);">[CRITICAL MESSAGE OVERRIDE]:</strong><br>
-                                "Hunter, if the terminal displays filter blocks when you load the registry maps, input the master tactical bypass keyword <span style="color:#fff; border-bottom:1px dotted var(--glow-cyan);">CAUTERIZE</span> directly into the primary Console Input node. This will override database redaction matrices globally. To access O5 core segments next, input <span style="color:#fff; border-bottom:1px dotted var(--glow-cyan);">O5-ALPHA</span>."
+                                "Hunter, if the terminal displays filter blocks when you load the registry maps, input the master tactical bypass keyword <span style="color:#fff; border-bottom:1px dotted var(--glow-cyan);">CAUTERIZE</span> directly into the primary Console Input node. This will override database redaction matrices globally."
                             </div>
                         </div>
                     </div>
@@ -609,7 +596,7 @@
                     <div class="anomaly-card" style="border-color: var(--alert-red);">
                         <p><strong style="color: var(--alert-red);">PROJECT CAUTERIZE FILE SUMMARY:</strong></p>
                         <p>Mobile Task Force Beta-1 was not formed to combat outside anomalies. Its hidden, foundational mandate is the total containment of the O5 Council themselves should any single overseer fall to conceptual, memetic, or neurological infiltration by anomaly streams.</p>
-                        <p>You hold the active isolation kill-switches for terminal grid systems across all command loops. Keep your terminal clear, operative. There are secrets in our root folders. Type <span style="color: var(--glow-cyan);">ls</span> to confirm system tree.</p>
+                        <p>You hold the active isolation kill-switches for terminal grid systems across all command loops. Keep your terminal clear, operative.</p>
                     </div>
                 </div>
             </main>
@@ -635,82 +622,8 @@
             } catch(e) {}
         }
 
-        // NEW: MULTI-STAGE WEBAUDIO PROMPT SYNTHESIZER ENGINE (OPTION 1)
-        function playSyntheticAudioLog() {
-            try {
-                initAudio(); if (!audioCtx) return;
-                let now = audioCtx.currentTime;
-                
-                // 1. Initial mechanical tape relay engagement click
-                let clickOsc = audioCtx.createOscillator();
-                let clickGain = audioCtx.createGain();
-                clickOsc.type = 'triangle'; clickOsc.frequency.setValueAtTime(80, now);
-                clickGain.gain.setValueAtTime(0.3, now); clickGain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-                clickOsc.connect(clickGain); clickGain.connect(audioCtx.destination);
-                clickOsc.start(); clickOsc.stop(now + 0.06);
-
-                // 2. Continuous White Noise Tape Hiss Simulation
-                let bufferSize = audioCtx.sampleRate * 2.5; // 2.5 Seconds of track hiss
-                let buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                let data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) { data[i] = Math.random() * 2 - 1; }
-                let noiseNode = audioCtx.createBufferSource(); noiseNode.buffer = buffer;
-                let noiseGain = audioCtx.createGain();
-                noiseGain.gain.setValueAtTime(0.012, now); // Quiet background layer
-                noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 2.4);
-                noiseNode.connect(noiseGain); noiseGain.connect(audioCtx.destination);
-                noiseNode.start();
-
-                // 3. Staggered radio telemetry chime burst signals
-                let notes = [220, 293, 440, 392, 587];
-                notes.forEach((freq, index) => {
-                    let noteTime = now + 0.15 + (index * 0.35);
-                    let osc = audioCtx.createOscillator();
-                    let gain = audioCtx.createGain();
-                    osc.type = (index % 2 === 0) ? 'sine' : 'sawtooth';
-                    osc.frequency.setValueAtTime(freq, noteTime);
-                    // Add subtle tracking frequency fluctuation pitch glide
-                    osc.frequency.exponentialRampToValueAtTime(freq * 0.96, noteTime + 0.2);
-                    gain.gain.setValueAtTime(0.05, noteTime);
-                    gain.gain.exponentialRampToValueAtTime(0.00001, noteTime + 0.25);
-                    osc.connect(gain); gain.connect(audioCtx.destination);
-                    osc.start(noteTime); osc.stop(noteTime + 0.26);
-                });
-            } catch (e) { console.error("Synthesizer error:", e); }
-        }
-
         let downloadInProgress = false;
         let cipherSolved = false;
-        let systemBreached = false; // System lock token
-
-        // NEW: EXPERIMENTAL VIRTUAL FILE SYSTEM DIRECTORIES MAPPING DATA (OPTION 4)
-        let currentDirectory = "root";
-        const fileSystem = {
-            "root": {
-                type: "dir",
-                contents: ["secure_vault", "comms_logs", "sys_bin", "manifest.txt"]
-            },
-            "root/secure_vault": {
-                type: "dir",
-                contents: ["credentials.txt", "project_cauterize.cfg"]
-            },
-            "root/comms_logs": {
-                type: "dir",
-                contents: ["intercept_01.log", "audio_alert.vox"]
-            },
-            "root/sys_bin": {
-                type: "dir",
-                contents: ["memetic_tracker.exe", "diagnostic_purge.sh"]
-            }
-        };
-
-        const fileViewer = {
-            "manifest.txt": "SCiP-NET TERMINAL MANIFEST // OPERATOR ID: Beta-1-01\nWarning: All folder layers track verification parameters dynamically.",
-            "secure_vault/credentials.txt": "ACCESS REGISTRY MATRIX:\nO5-1 ACCESS TOKEN: [REDACTED]\nO5-7 BYPASS SECTOR: UTILITY-COGNITIVE-VECTOR\nUse command 'cauterize' to clear local block layers.",
-            "secure_vault/project_cauterize.cfg": "CORE OVERSEER PROTOCOLS:\nIf system tracking reaches critical imbalance posture, deploy sequence string 'O5-ALPHA' immediately.",
-            "comms_logs/intercept_01.log": "LOG TRACE NODE-04:\nInterception vector localized inside Wanderer's Library proxies.\nStatus: Purged cleanly from public sector pools.",
-            "comms_logs/audio_alert.vox": "SYNTHETIC SIGNAL ELEMENT CORE.\nType command phrase: 'play alert' to read dynamic sonic footprints directly."
-        };
 
         const logData = [
             "SCiP-NET v4.029 INITIALIZING...",
@@ -738,8 +651,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             printLog();
             setupCommandLine();
-            startTelemetryTicker();
-            startBreachCheckerLoop(); // Start low-frequency security breach check monitor
+            startTelemetryTicker(); // Launch live tracking panel log loops
         });
 
         function switchDatabaseView(viewName) {
@@ -760,8 +672,8 @@
             if (targetLink) targetLink.classList.add('active');
         }
 
+        // AMBIENT GLITCH TRIGGER
         function triggerAmbientGlitch() {
-            if (systemBreached) return;
             const mainInterface = document.getElementById('main-interface');
             if (!mainInterface || !mainInterface.classList.contains('revealed')) return;
 
@@ -780,6 +692,7 @@
             }, nextGlitchDelay);
         }
 
+        // NEW: MULTI-STAGE CLEARANCE ENGINE OVERLAY
         function triggerClearanceScan(statusText, duration, isSuccess, callback) {
             const overlay = document.getElementById('clearance-overlay');
             const statusNode = document.getElementById('clearance-status');
@@ -788,6 +701,7 @@
             statusNode.innerText = statusText;
             statusNode.style.color = '#fff';
             
+            // Sweep validation tone
             playTone(330, 'sawtooth', duration / 1000, 0.04);
 
             setTimeout(() => {
@@ -808,37 +722,7 @@
             }, duration);
         }
 
-        // NEW: LOW PROBABILITY INTRUSION SECURITY BREACH SCHEDULER SYSTEM (OPTION 2)
-        function triggerSystemBreachEvent() {
-            systemBreached = true;
-            const overlay = document.getElementById('breach-overlay');
-            overlay.style.display = 'flex';
-            
-            // Unstable oscillating siren audio loop
-            let loopCount = 0;
-            function alertSiren() {
-                if (!systemBreached) return;
-                playTone(loopCount % 2 === 0 ? 140 : 220, 'square', 0.25, 0.12);
-                loopCount++;
-                setTimeout(alertSiren, 300);
-            }
-            alertSiren();
-            logTelemetry("[CRITICAL ANOMALY DETECTED]: MAIN POOLS CORRUPTED.", "telemetry-warn");
-        }
-
-        function startBreachCheckerLoop() {
-            // Checks status periodically every 15-20 seconds with a low 8% chance to fire
-            setTimeout(() => {
-                const mainInterface = document.getElementById('main-interface');
-                if (mainInterface && mainInterface.classList.contains('revealed') && !systemBreached && !downloadInProgress) {
-                    if (Math.random() < 0.08) { 
-                        triggerSystemBreachEvent();
-                    }
-                }
-                startBreachCheckerLoop();
-            }, 18000);
-        }
-
+        // NEW: SCROLLING LIVE TELEMETRY STREAM TICKER
         const mockLogs = [
             { text: "[PING] Site-19 deep storage nodes responding.", class: "telemetry-system" },
             { text: "[SCRUB] Cleaned 3 administrative access signatures from memory.", class: "telemetry-success" },
@@ -855,6 +739,7 @@
             row.innerText = text;
             container.appendChild(row);
             
+            // Limit to 5 logs inside view to maintain interface boundaries
             while (container.children.length > 5) {
                 container.removeChild(container.firstChild);
             }
@@ -863,12 +748,12 @@
         function startTelemetryTicker() {
             setTimeout(() => {
                 const mainInterface = document.getElementById('main-interface');
-                if (mainInterface && mainInterface.classList.contains('revealed') && !downloadInProgress && !systemBreached) {
+                if (mainInterface && mainInterface.classList.contains('revealed') && !downloadInProgress) {
                     const selectedLog = mockLogs[Math.floor(Math.random() * mockLogs.length)];
                     logTelemetry(selectedLog.text, selectedLog.class);
                 }
                 startTelemetryTicker();
-            }, Math.random() * 4000 + 3000);
+            }, Math.random() * 4000 + 3000); // Ticks dynamically every 3-7 seconds
         }
 
         function toggleAccordion(itemId) {
@@ -879,9 +764,9 @@
             if (!isOpen) item.classList.add('open');
         }
 
+        // CONSOLE COMMAND PROCESSING INTERFACE
         function setupCommandLine() {
             const inputField = document.getElementById('terminal-input');
-            const indicator = document.getElementById('prompt-indicator');
 
             inputField.addEventListener('keydown', function(e) {
                 if (e.key.length === 1) playTone(1200, 'triangle', 0.02, 0.03);
@@ -893,19 +778,7 @@
 
                     if (!command) return;
 
-                    // Intercept loops if system is breached
-                    if (systemBreached) {
-                        if (lowerCmd === 'reboot node') {
-                            systemBreached = false;
-                            document.getElementById('breach-overlay').style.display = 'none';
-                            playTone(600, 'sine', 0.4, 0.1);
-                            logTelemetry("[SUCCESS] System stabilization restored successfully.", "telemetry-success");
-                        } else {
-                            playTone(120, 'square', 0.2, 0.15);
-                        }
-                        return;
-                    }
-
+                    // Intercept loops during critical download puzzles
                     if (downloadInProgress) {
                         if (lowerCmd === 'beta-1') {
                             downloadInProgress = false; cipherSolved = true;
@@ -945,53 +818,6 @@
                         return;
                     }
 
-                    // NEW: PLAYBACK INTERACTIVE COMMAND PARSER SYSTEM (OPTION 1)
-                    if (lowerCmd === 'play log-01' || lowerCmd === 'play alert') {
-                        logTelemetry("[AUDIO] Executing synthesized track compilation...", "telemetry-success");
-                        playSyntheticAudioLog();
-                        return;
-                    }
-
-                    // NEW: FILE DIRECTORY NAVIGATION INTERACTION SYSTEM MATRIX (OPTION 4)
-                    if (lowerCmd === 'ls') {
-                        let targetDirObj = fileSystem[currentDirectory];
-                        let outputStr = targetDirObj.contents.join("   ");
-                        logTelemetry(`Directory: /${currentDirectory.replace('root','')}\n${outputStr}`, "telemetry-success");
-                        return;
-                    }
-
-                    if (lowerCmd.startsWith('cd ')) {
-                        let targetFolder = command.substring(3).trim().toLowerCase();
-                        if (targetFolder === '..') {
-                            currentDirectory = "root";
-                            indicator.innerText = ">";
-                            logTelemetry("Returned to root core node context.", "telemetry-system");
-                        } else {
-                            let possiblePath = currentDirectory === "root" ? `root/${targetFolder}` : `${currentDirectory}/${targetFolder}`;
-                            if (fileSystem[possiblePath]) {
-                                currentDirectory = possiblePath;
-                                indicator.innerText = `/${targetFolder}>`;
-                                logTelemetry(`Mapsd folder path: /${targetFolder}`, "telemetry-success");
-                            } else {
-                                playTone(180, 'square', 0.2, 0.1);
-                                logTelemetry("[ERR] Directory reference node unrecognized.", "telemetry-warn");
-                            }
-                        }
-                        return;
-                    }
-
-                    if (lowerCmd.startsWith('cat ')) {
-                        let targetFile = command.substring(4).trim();
-                        let lookupKey = currentDirectory === "root" ? targetFile : `${currentDirectory.replace('root/','')}/${targetFile}`;
-                        if (fileViewer[lookupKey]) {
-                            logTelemetry(`File Read output:\n${fileViewer[lookupKey]}`, "telemetry-success");
-                        } else {
-                            playTone(180, 'square', 0.2, 0.1);
-                            logTelemetry("[ERR] Target file element missing or unreadable.", "telemetry-warn");
-                        }
-                        return;
-                    }
-
                     if (lowerCmd.startsWith('download ')) {
                         const targetFile = lowerCmd.substring(9).trim();
                         if (targetFile === 'scp-7402-logs' || targetFile === 'scp-7402') {
@@ -1006,7 +832,7 @@
 
                     switch (lowerCmd) {
                         case 'help':
-                            logTelemetry("CORE STRINGS: view dossier | view anomalies | view history\nSYSTEM STRINGS: ls | cd [folder] | cat [file] | play log-01", "telemetry-success");
+                            logTelemetry("STRINGS: view dossier | view anomalies | view history | download scp-7402-logs", "telemetry-success");
                             break;
                         case 'view dossier':
                             switchDatabaseView('dossier');
